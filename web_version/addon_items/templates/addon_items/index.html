@@ -1,0 +1,82 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <title>
+            Add-on Items Homepage
+        </title>
+        <link href="{% static 'addon_items/styles.css' %}" rel="stylesheet">
+    </head>
+    <body>
+        <header>
+            Welcome to the homepage of <b>Add-on Items</b> 
+        </header>
+
+        <form action="{% url 'addon_items:target' %}" method="post">
+            {% csrf_token %}
+            <div>
+                Current target total price: {{ target_total_price }}
+            </div>
+
+            <div>
+                <label>
+                    Set target price:
+                </label>
+                <input autofocus="autofocus" name="target_price" type="text" />
+                <input value="Update" type="submit" />
+            </div>
+
+        </form>
+
+        <form action="{% url 'addon_items:add' %}" method="post">
+            {% csrf_token %}
+            <div>
+                <label>
+                    The new item name:
+                </label>
+                <input autofocus="autofocus" name="item_name" type="text" />
+            </div>
+            <div>
+                <label>
+                    The new item price:
+                </label>
+                <input autofocus="autofocus" name="item_price" type="text" />
+            </div>
+            <div>
+                <input value="Add the item to cart" type="submit" />
+            </div>
+        </form>
+
+        <div class="backup_items">
+            <p>
+                Backup items: 
+            </p>
+            {% if has_backup_item %}
+                <ul>
+                    {% for item in backup_items %}
+                        <li>Item name: {{ item.name }}; item price: {{ item.price }}</li>
+                    {% endfor %}
+                </ul>
+            {% else %}
+                <p>
+                    No recommendation item yet.
+                </p>
+            {% endif %}
+        </div>
+
+        <div class="item_cart">
+            <p>
+                Current item cart:
+            </p>
+            <ul>
+                {% for item in item_cart %}
+                    <li>Item name: {{ item.name }}; item price: {{ item.price }}</li>
+                {% endfor %}
+            </ul>
+
+            <p>
+                Current total price in cart: {{ current_total_price }}
+            </p>
+        </div>
+    </body>
+</html>
